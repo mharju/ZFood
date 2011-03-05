@@ -11,16 +11,18 @@ from utils import zfood
 import os.path
 
 def _csv_filename(user):
-    return os.path.join(settings.CSV_LOCATION, '%s.csv' % user.username)
+    filename = os.path.join(settings.CSV_LOCATION, '%s.csv' % user.username)
+    if not os.path.exists(filename):
+        open(filename,'w').close()
+    return filename
 
 def login(request):
     error = ''
     if request.method == 'POST': 
-        print "%s and %s" % (request.POST['username'], request.POST['password'],)
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
         if user:
             auth_login(request, user)
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(reverse('index'))
         error = 'oh noes.'
 
     return render_to_response('login.html', {'error': error})

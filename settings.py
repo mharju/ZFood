@@ -80,6 +80,8 @@ INSTALLED_APPS = (
     'web',
 )
 
-SESSION_ENGINE = "django.contrib.sessions.backends.file"
-CSV_LOCATION = "csv"
+import os.path
+ROOT = os.path.dirname(os.path.realpath(__file__))
+CSV_LOCATION = os.path.join(ROOT, "csv")
+LOGIN_URL = "/zfood/accounts/login/"
 
