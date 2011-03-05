@@ -4,6 +4,7 @@ from django.conf import settings
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.core.urlresolvers import reverse
 
 from utils import zfood
 
@@ -27,7 +28,7 @@ def login(request):
 @login_required
 def logout(request):
     auth_logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(reverse('index'))
 
 
 @login_required
@@ -39,14 +40,14 @@ def store(request):
         except Exception, e:
             request.session['error'] = e
     request.session['saved'] = True 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(reverse('index'))
 
 @login_required
 def remove(request, id):
     filename = _csv_filename(request.user)
 
     zfood.remove(int(id), filename=filename)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(reverse('index'))
 
 @login_required
 def csv(request):

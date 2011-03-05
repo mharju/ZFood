@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    (r'^$', 'web.views.index',),
+    url(r'^$', 'web.views.index', name='index'),
     url(r'^accounts/login/$', 'web.views.login', name='login'),
     url(r'^accounts/logout/$', 'web.views.logout', name='logout'),
     url(r'^remove/(?P<id>\d+)/', 'web.views.remove', name='remove'),
