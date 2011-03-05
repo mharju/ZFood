@@ -11,7 +11,11 @@ def store(request):
         except Exception, e:
             request.session['error'] = e
     request.session['saved'] = True 
-    return HttpResponseRedirect('/zfood/')
+    return HttpResponseRedirect('/')
+
+def remove(request, id):
+    zfood.remove(int(id))
+    return HttpResponseRedirect('/')
 
 def csv(request):
     response = HttpResponse(mimetype="text/csv")
@@ -24,4 +28,4 @@ def index(request):
     items = zfood.read(filename=settings.CSV_LOCATION)
     saved = request.session.get('saved', False)
     if saved: del request.session['saved']
-    return render_to_response('index.html', {'saved': request.session.get('saved', False), 'items': items})
+    return render_to_response('index.html', {'saved': request.session.get('saved', False), 'error': request.session.get('error', ''), 'items': items})

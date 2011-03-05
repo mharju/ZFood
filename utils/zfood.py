@@ -5,13 +5,14 @@ import math
 from datetime import datetime
 
 class FoodItem(object):
-    def __init__(self, item, count, unit, at=None):
+    def __init__(self, item, count, unit, at=None, id=0):
         self.item = item
         if math.floor(count) == count:
             count = int(count)
         self.count = count
         self.unit = unit
         self.at = at
+        self.id = id
 
     @staticmethod
     def from_csv(data, at):
@@ -53,23 +54,29 @@ def store(data, date=None, filename='zfood.csv'):
     with open(filename, 'a') as f:
         f.write(date.strftime("\"%d.%m.%Y %H:%M:%S\""))
         f.write('\n')
-        f.write('\n'.join(item))
+        f.write('\n'.join(items))
         f.write('\n')
 
-class Timeinfo(object): pass
+class ReadInfo(object): pass
 def read(filename='zfood.csv'):
-    timeinfo = Timeinfo()
+    info = ReadInfo()
+    info.line_count = 0
+
     def _parse_items(lines):
         items = []
-        if not getattr(timeinfo, 'at', None):
-            timeinfo.at = lines[0].strip("\n").strip('"')
+        if not getattr(info, 'at', None):
+            info.at = lines[0].strip("\n").strip('"')
 
         try:
             line = lines.pop(0)
-            food = FoodItem.from_csv(line, timeinfo.at)
+            info.line_count += 1
+
+            food = FoodItem.from_csv(line, info.at)
+            food.id = info.line_count
+
             items.append(food)
         except Exception, e:
-            timeinfo.at = line.strip("\n").strip('"')
+            info.at = line.strip("\n").strip('"')
         finally:
             return items
 
@@ -83,3 +90,10 @@ def read(filename='zfood.csv'):
                 items.extend( _parse_items(lines) )
 
     return items
+
+def remove(id, filename='zfood.csv'):
+    data = open(filename, 'r').readlines()
+    data.pop(id - 1)
+    with open(filename,'w') as f:
+        f.writelines(data)
+

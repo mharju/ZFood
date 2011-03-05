@@ -9,7 +9,11 @@
         h1 { font-size: 37pt; }
         div.message { font-size: 27pt; color: green; margin-top: 1em; }
 
-        div.item { vertical-align: bottom; margin-bottom: 1em; border-bottom: 1px solid #ccc; }
+        div.item { vertical-align: bottom; margin-bottom: 1em; border-bottom: 1px solid #ccc; position: relative; }
+
+        div.item a.remove { color: #ccc; position: absolute; right: 5%; top: 20px; display: none; font-size: 20pt; }
+        div.item:hover a.remove { display: block; }
+
         div.item div.info { display: inline; }
         span.amount, span.unit { font-weight: bold; font-size: 40pt; }
         span.item { font-size: 40pt; }
@@ -26,6 +30,7 @@
     </form>
     <a href="{% url csv %}">Get as CSV</a>
     {% if saved %}<div class="message">Saved.</div>{% endif %}
+    {% if error %}<div class="message error">{{ error }}</div>{% endif %}
     <h2>5 Latest</h2>
     <div class="items">
         {% for item in items reversed %}
@@ -37,6 +42,7 @@
             </div>
             <span class="item">{{ item.item }}</span>
             <span class="at">{{ item.at }}</span>
+            <a href="{% url remove id=item.id %}" class="remove">remove</a>
         </div>
         {% endfor %}
     </div>

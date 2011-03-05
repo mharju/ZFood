@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     # (r'^admin/', include(admin.site.urls)),
 
     (r'^$', 'web.views.index',),
+    url(r'^remove/(?P<id>\d+)/', 'web.views.remove', name='remove'),
     url(r'^store/', 'web.views.store', name='store'),
     url(r'^csv/', 'web.views.csv', name='csv'),
 )
