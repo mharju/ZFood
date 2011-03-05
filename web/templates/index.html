@@ -1,0 +1,43 @@
+<!doctype html>
+<head>
+    <title>ZFood.</title>
+    <style type="text/css" media="screen">
+        body { font-family: Helvetica, Sans-Serif; }
+        input[type="text"] { font-size: 22pt; width: 86%; }
+        input[type="submit"] { font-size: 22pt; }
+        form { padding: 2em; background-color: #ccc; margin-bottom: 1em; }
+        h1 { font-size: 37pt; }
+        div.message { font-size: 27pt; color: green; margin-top: 1em; }
+
+        div.item { vertical-align: bottom; margin-bottom: 1em; border-bottom: 1px solid #ccc; }
+        div.item div.info { display: inline; }
+        span.amount, span.unit { font-weight: bold; font-size: 40pt; }
+        span.item { font-size: 40pt; }
+        span.at { display: block; color: #aaa; font-size: 10pt; }
+
+        a { color: #aaa; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <form method="POST" action="{% url store %}">
+        <input type="text" name="items" value="" />
+        <input type="submit" value="Om Nom" />
+    </form>
+    <a href="{% url csv %}">Get as CSV</a>
+    {% if saved %}<div class="message">Saved.</div>{% endif %}
+    <h2>5 Latest</h2>
+    <div class="items">
+        {% for item in items reversed %}
+        
+        <div class="item">
+            <div class="info">
+                <span class="amount">{{ item.count }}</span>
+                <span class="unit">{{ item.unit }}</span>
+            </div>
+            <span class="item">{{ item.item }}</span>
+            <span class="at">{{ item.at }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</body>
