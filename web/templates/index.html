@@ -18,6 +18,7 @@
         span.amount, span.unit { font-weight: bold; font-size: 40pt; }
         span.item { font-size: 40pt; }
         span.at { display: block; color: #aaa; font-size: 10pt; }
+        div.example { color: #999; margin-top: 0.5em; font-size: 16pt; }
 
         a { color: #aaa; text-decoration: none; }
         a:hover { text-decoration: underline; }
@@ -27,6 +28,7 @@
     <form method="POST" action="{% url store %}">
         <input type="text" name="items" value="" />
         <input type="submit" value="Om Nom" />
+        <div class="example">12pcs chocolate, 33cl beer, 1 banana, 2pcs apple</div>
     </form>
     <a href="{% url csv %}">Get as CSV</a>
     {% if saved %}<div class="message">Saved.</div>{% endif %}
