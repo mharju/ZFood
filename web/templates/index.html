@@ -22,18 +22,23 @@
 
         a { color: #aaa; text-decoration: none; }
         a:hover { text-decoration: underline; }
+
+        a.csv-link { margin: 1em 0 1em 0; display: block; }
+
+        div.account { text-align: right; margin: 1em; }
     </style>
 </head>
 <body>
+    <div class="account"><a href="{% url logout %}">Log out</a></div>
+
     <form method="POST" action="{% url store %}">
         <input type="text" name="items" value="" />
         <input type="submit" value="Om Nom" />
         <div class="example">12pcs chocolate, 33cl beer, 1 banana, 2pcs apple</div>
     </form>
-    <a href="{% url csv %}">Get as CSV</a>
+    <a class="csv-link" href="{% url csv %}">Get as CSV</a>
     {% if saved %}<div class="message">Saved.</div>{% endif %}
     {% if error %}<div class="message error">{{ error }}</div>{% endif %}
-    <h2>5 Latest</h2>
     <div class="items">
         {% for item in items reversed %}
         
