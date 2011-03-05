@@ -48,11 +48,12 @@ def store(data, date=None, filename='zfood.csv'):
     if not date:
         date = datetime.now()
 
+    items = [ unicode(item).encode('utf-8') for item in split_items(data) ]
+
     with open(filename, 'a') as f:
         f.write(date.strftime("\"%d.%m.%Y %H:%M:%S\""))
         f.write('\n')
-        f.write('\n'.join([ 
-            unicode(item).encode('utf-8') for item in split_items(data) ]))
+        f.write('\n'.join(item))
         f.write('\n')
 
 class Timeinfo(object): pass

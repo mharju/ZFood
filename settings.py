@@ -80,3 +80,4 @@ INSTALLED_APPS = (
 )
 
 SESSION_ENGINE = "django.contrib.sessions.backends.file"
+CSV_LOCATION = "/Library/WebServer/django-projects/zfood/csv/zfood.csv"
