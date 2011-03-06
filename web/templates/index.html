@@ -2,28 +2,38 @@
 <head>
     <title>ZFood.</title>
     <style type="text/css" media="screen">
-        body { font-family: Helvetica, Sans-Serif; }
-        input[type="text"] { font-size: 22pt; width: 86%; }
+        /*
+        * background: 
+        * 
+        */
+        body { font-family: Helvetica, Sans-Serif; background: white; color: black; margin: 1em 5em;}
+        input[type="text"] { font-size: 22pt; width: 75%; }
         input[type="submit"] { font-size: 22pt; }
-        form { padding: 2em; background-color: #ccc; margin-bottom: 1em; }
+        form { 
+            padding: 2em; background-color: #0059F6; margin-bottom: 1em; 
+            -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px;
+        }
+
+        form div { text-align: center; }
+
         h1 { font-size: 37pt; }
         div.message { font-size: 27pt; color: green; margin-top: 1em; }
 
         div.item { vertical-align: bottom; margin-bottom: 1em; border-bottom: 1px solid #ccc; position: relative; }
 
-        div.item a.remove { color: #ccc; position: absolute; right: 5%; top: 20px; display: none; font-size: 20pt; }
+        div.item a.remove { position: absolute; right: 0; top: 20px; display: none; font-size: 20pt; }
         div.item:hover a.remove { display: block; }
 
         div.item div.info { display: inline; }
         span.amount, span.unit { font-weight: bold; font-size: 40pt; }
         span.item { font-size: 40pt; }
-        span.at { display: block; color: #aaa; font-size: 10pt; }
-        div.example { color: #999; margin-top: 0.5em; font-size: 16pt; }
+        span.at { display: block; color: #aaa; font-size: 10pt; text-align: right; }
+        div.example { color: #ccc; margin-top: 0.5em; font-size: 16pt; }
 
-        a { color: #aaa; text-decoration: none; }
+        a { color: #ccc; text-decoration: none; }
         a:hover { text-decoration: underline; }
 
-        a.csv-link { margin: 1em 0 1em 0; display: block; }
+        a.csv-link { margin: 1em 0 1em 0; display: block; text-align: right; }
 
         div.account { text-align: right; margin: 1em 0 1em 0; }
     </style>
@@ -32,9 +42,11 @@
     <div class="account"><a href="{% url logout %}">Log out</a></div>
 
     <form method="POST" action="{% url store %}">
-        <input type="text" name="items" value="" />
-        <input type="submit" value="Om Nom" />
-        <div class="example">12pcs chocolate, 33cl beer, 1 banana, 2pcs apple</div>
+        <div class="data">
+            <input type="text" name="items" value="" />
+            <input type="submit" value="Om Nom" />
+        </div>
+        <div class="example">150g chocolate, 33cl beer, 1 banana, 2pcs apple</div>
     </form>
     <a class="csv-link" href="{% url csv %}">Get as CSV</a>
     {% if saved %}<div class="message">Saved.</div>{% endif %}

@@ -3,15 +3,25 @@
     <title>Z.</title>
     <style type="text/css" media="screen">
         body { font-family: Helvetica, Sans-Serif; }
-        input[type="text"], input[type="password"] { font-size: 22pt; }
+        input[type="text"], input[type="password"] { font-size: 22pt; display: block; margin-bottom: 1em;}
         input[type="submit"] { font-size: 22pt; }
-        form { padding: 2em; background-color: #ccc; margin-bottom: 1em; }
+        form { 
+            padding: 2em; background-color: #0059F6; margin-bottom: 1em; 
+            -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px;
+            width: 500px;
+            margin: 0 auto;
+        }
+        label {
+            color: white; font-size: 26pt;
+        }
         div.error { margin: 1em; color: red; font-size: 30pt; }
     </style>
 </head>
 <body>
     <form action="{% url login %}" method="POST">
+        <label for="username">Username</label>
         <input type="text" name="username" />
+        <label for="password">Password</label>
         <input type="password" name="password" />
         <input type="submit" value="GO!" />
     </form>
