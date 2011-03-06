@@ -4,13 +4,17 @@ import zfood
 from datetime import datetime, timedelta
 
 def test_item_split():
-    items = zfood.parse(u'leipä, 2dl olutmainen juomasekoitus')
-    assert len(items) == 2
+    items = zfood.parse(u'leipä, 2dl olutmainen juomasekoitus, 2tölkkiä olutta')
+    assert len(items) == 3
     assert items[0].item == u'leipä'
 
     assert items[1].item == u'olutmainen juomasekoitus', 'invalid items'
     assert items[1].count == 2, 'invalid count'
     assert items[1].unit == u'dl', 'invalid unit'
+
+    assert items[2].item == u'olutta'
+    assert items[2].count == 2
+    assert items[2].unit == u'tölkkiä'
 
 def test_item_format():
     items = zfood.parse(u'1 leipä')

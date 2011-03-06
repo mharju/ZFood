@@ -66,7 +66,7 @@ def parse(str):
 
         if ' ' in data:
             count, item = data[:data.index(' ')], data[data.index(' ')+1:]
-            match = re.match(r'(?P<count>(?:\d|\.)+)(?P<unit>\w+)', count)
+            match = re.match(r'(?P<count>(?:\d|\.)+)(?P<unit>.+)', count)
             if match:
                 count = float(match.group('count'))
                 unit = match.group('unit')
