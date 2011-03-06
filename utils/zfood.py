@@ -13,10 +13,7 @@ class FoodItem(object):
         self.count = count
         self.unit = unit
         self.at = at
-
-        if not id:
-            FoodItem.instance_count = getattr(FoodItem, 'instance_count', 0) + 1
-            self.id = FoodItem.instance_count
+        self.id = id
 
     def as_list(self):
         return [self.at.strftime("%Y-%m-%d %H:%M"), self.count, self.unit.encode('utf-8'), self.item.encode('utf-8')]
@@ -24,8 +21,6 @@ class FoodItem(object):
     @staticmethod
     def from_list(list):
         self = FoodItem()
-        FoodItem.instance_count = getattr(FoodItem, 'instance_count', 0) + 1
-        self.id = FoodItem.instance_count
         self.at = datetime.strptime(list[0], "%Y-%m-%d %H:%M")
         self.count = float(list[1])
         if math.floor(self.count) == self.count:
@@ -95,19 +90,25 @@ def parse(str):
         if metadata.date:
             date = metadata.date 
 
-    FoodItem.instance_count = 0
     return [_construct_item(entry) for entry in str.split(',')]
 
 def store(items, filename='zfood.csv', mode='a'):
     with open(filename, mode) as f:
         writer = csv.writer(f)
-        writer.writerows( [ item.as_list() for item in items ] )
+        for index, item in enumerate(items):
+            writer.writerow( item.as_list() )
+            item.id = index + 1
 
 def read(filename='zfood.csv'):
     with open(filename, 'rb') as f:
         reader = csv.reader(f)
-        FoodItem.instance_count = 0
-        return [ FoodItem.from_list( item ) for item in reader ]
+        items = []
+        for index, item in enumerate(reader):
+            food = FoodItem.from_list( item )
+            food.id = index + 1
+            items.append( food ) 
+
+        return items 
 
 def remove(id, filename='zfood.csv'):
     data = open(filename, 'r').readlines()

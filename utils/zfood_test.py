@@ -74,6 +74,8 @@ def test_store_and_read():
 
 def test_store_and_remove():
     items = zfood.parse(u'leipä, olut')
+    assert items[0].id == 0
+
     zfood.store( items, filename='zfood_test.csv', mode='w')
     assert items[0].id == 1, 'invalid id'
     assert items[1].id == 2, 'invalid id'
