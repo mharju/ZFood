@@ -2,22 +2,20 @@
 <head>
     <title>ZFood.</title>
     <style type="text/css" media="screen">
-        /*
-        * background: 
-        * 
-        */
         body { font-family: Helvetica, Sans-Serif; background: white; color: black; margin: 1em 5em;}
         input[type="text"] { font-size: 22pt; width: 75%; }
         input[type="submit"] { font-size: 22pt; }
         form { 
             padding: 2em; background-color: #0059F6; margin-bottom: 1em; 
             -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px;
+            -moz-box-shadow: 3px 3px 10px black; -webkit-box-shadow: 3px 3px 10px black; -box-shadow: 3px 3px 10px black;
         }
 
         form div { text-align: center; }
 
         h1 { font-size: 37pt; }
         div.message { font-size: 27pt; color: green; margin-top: 1em; }
+        div.error { color: red; }
 
         div.item { vertical-align: bottom; margin-bottom: 1em; border-bottom: 1px solid #ccc; position: relative; }
 
@@ -28,9 +26,9 @@
         span.amount, span.unit { font-weight: bold; font-size: 40pt; }
         span.item { font-size: 40pt; }
         span.at { display: block; color: #aaa; font-size: 10pt; text-align: right; }
-        div.example { color: #ccc; margin-top: 0.5em; font-size: 16pt; }
+        div.example { color: #ccc; margin-top: 0.5em; font-size: 16pt; text-shadow: black 1px 1px 1px; }
 
-        a { color: #ccc; text-decoration: none; }
+        a { color: #0059F6; text-decoration: none; }
         a:hover { text-decoration: underline; }
 
         a.csv-link { margin: 1em 0 1em 0; display: block; text-align: right; }
@@ -39,7 +37,7 @@
     </style>
 </head>
 <body>
-    <div class="account"><a href="{% url logout %}">Log out</a></div>
+    <div class="account">Welcome, {{ user.username }} <a href="{% url logout %}">Log out</a></div>
 
     <form method="POST" action="{% url store %}">
         <div class="data">

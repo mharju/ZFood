@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.core.urlresolvers import reverse
+from django.template import RequestContext
 
 from utils import zfood
 
@@ -32,13 +33,12 @@ def logout(request):
     auth_logout(request)
     return HttpResponseRedirect(reverse('index'))
 
-
 @login_required
 def store(request):
     if request.method == 'POST':
         filename = _csv_filename(request.user)
         try:
-            zfood.store(request.POST['items'], filename=filename)
+            zfood.store(zfood.parse(request.POST['items']), filename=filename)
         except Exception, e:
             request.session['error'] = e
     request.session['saved'] = True 
@@ -67,4 +67,8 @@ def index(request):
     items = zfood.read(filename=filename)
     saved = request.session.get('saved', False)
     if saved: del request.session['saved']
-    return render_to_response('index.html', {'saved': request.session.get('saved', False), 'error': request.session.get('error', ''), 'items': items})
+    error = request.session.get('error', False)
+    if error: del request.session['error']
+    return render_to_response('index.html', 
+            {'saved': request.session.get('saved', False), 'error': error, 'items': items},
+            context_instance=RequestContext(request))
