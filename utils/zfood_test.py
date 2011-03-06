@@ -72,3 +72,14 @@ def test_store_and_read():
     for item in items:
         assert item.at == expected_date
 
+def test_store_and_remove():
+    items = zfood.parse(u'leipä, olut')
+    zfood.store( items, filename='zfood_test.csv', mode='w')
+    assert items[0].id == 1, 'invalid id'
+    assert items[1].id == 2, 'invalid id'
+
+    zfood.remove(items[0].id, filename='zfood_test.csv')
+    items = zfood.read( filename='zfood_test.csv' )
+
+    assert len(items) == 1
+    assert items[0].item == u'olut'
