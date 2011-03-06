@@ -52,12 +52,13 @@ def remove(request, id):
     return HttpResponseRedirect(reverse('index'))
 
 @login_required
-def csv(request):
+def csv(request, encoding='utf-8'):
     response = HttpResponse(mimetype="text/csv")
     response['Content-Disposition'] = 'attachment; filename=zfood.csv'
     filename = _csv_filename(request.user)
     with open(filename, 'r') as f:
-        response.write( f.read() )
+        content = unicode(f.read().decode('utf-8'))
+        response.write( content.encode(encoding))
     return response
 
 @login_required

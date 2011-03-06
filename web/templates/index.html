@@ -46,7 +46,7 @@
         </div>
         <div class="example">150g chocolate, 33cl beer, 1 banana, 2pcs apple</div>
     </form>
-    <a class="csv-link" href="{% url csv %}">Get as CSV</a>
+    <a class="csv-link" href="{% url csv encoding='latin-1' %}">Get as latin-1 CSV</a>
     {% if saved %}<div class="message">Saved.</div>{% endif %}
     {% if error %}<div class="message error">{{ error }}</div>{% endif %}
     <div class="items">
