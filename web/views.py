@@ -56,8 +56,8 @@ def csv(request):
     response = HttpResponse(mimetype="text/csv")
     response['Content-Disposition'] = 'attachment; filename=zfood.csv'
     filename = _csv_filename(request.user)
-    with open(filename) as f:
-        response.write( f )
+    with open(filename, 'r') as f:
+        response.write( f.read() )
     return response
 
 @login_required
