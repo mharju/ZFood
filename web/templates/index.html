@@ -17,7 +17,8 @@
         div.message { font-size: 27pt; color: green; margin-top: 1em; }
         div.error { color: red; }
 
-        div.item { vertical-align: bottom; margin-bottom: 1em; border-bottom: 1px solid #ccc; position: relative; }
+        div.item { vertical-align: bottom; margin-bottom: 2em; border-bottom: 1px solid #ccc; position: relative;
+            margin-left: 3em; }
 
         div.item a.remove { position: absolute; right: 0; top: 20px; display: none; font-size: 20pt; }
         div.item:hover a.remove { display: block; }
@@ -28,8 +29,13 @@
         span.at { display: block; color: #aaa; font-size: 10pt; text-align: right; }
         div.example { color: #ccc; margin-top: 0.5em; font-size: 16pt; text-shadow: black 1px 1px 1px; }
 
+        div.grouper { font-size: 42pt; font-weight: bold; margin-bottom: 0.5em; }
+        div.group { margin-bottom: 80px; }
+
         a { color: #0059F6; text-decoration: none; }
         a:hover { text-decoration: underline; }
+
+        a.remove span.icon { vertical-align: top; }
 
         a.csv-link { margin: 1em 0 1em 0; display: block; text-align: right; }
 
@@ -50,16 +56,24 @@
     {% if saved %}<div class="message">Saved.</div>{% endif %}
     {% if error %}<div class="message error">{{ error }}</div>{% endif %}
     <div class="items">
-        {% for item in items reversed %}
-        
-        <div class="item">
-            <div class="info">
-                <span class="amount">{{ item.count }}</span>
-                <span class="unit">{{ item.unit }}</span>
+        {% regroup items by at as items_by_date %}
+
+        {% for group in items_by_date reversed %}
+        <div class="grouper">{{ group.grouper|date:"d.m. H:i" }}</div>
+        <div class="group">
+        {% for item in group.list %}
+            <div class="item">
+                <div class="info">
+                    <span class="amount">{{ item.count }}</span>
+                    {% if item.unit %}
+                    <span class="unit">{{ item.unit }}</span>
+                    {% endif %}
+                </div>
+                <span class="item">{{ item.item }}</span>
+                <!--<span class="at">{{ item.at }}</span>-->
+                <a href="{% url remove id=item.id %}" class="remove">remove <span class="icon">&#x2573;</span></a>
             </div>
-            <span class="item">{{ item.item }}</span>
-            <span class="at">{{ item.at }}</span>
-            <a href="{% url remove id=item.id %}" class="remove">remove</a>
+        {% endfor %}
         </div>
         {% endfor %}
     </div>
